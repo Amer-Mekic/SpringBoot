@@ -8,11 +8,6 @@ import org.springframework.context.annotation.Bean;
 public class DemoApplication {
 
 	public static void main(String[] args) {
-		var context = SpringApplication.run(DemoApplication.class, args);
-		FirstService mf = context.getBean(FirstService.class);
-        System.out.println(mf.tellStory());
-		System.out.println(mf.getJavaVersion());
-		System.out.println(mf.getS());
-		System.out.println(mf.getNum());
+		var context = SpringApplication.run(DemoApplication.class);
 	}
 }

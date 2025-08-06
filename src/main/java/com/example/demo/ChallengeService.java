@@ -1,0 +1,33 @@
+package com.example.demo;
+
+import org.springframework.stereotype.Service;
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+public class ChallengeService {
+    private List<Challenge> challenges = new ArrayList<>();
+    private Long nextID = 1L;
+
+    public List<Challenge> getAllChallenges(){
+        return challenges;
+    }
+
+    public boolean addChallenge(Challenge ch){
+        if(ch != null) {
+            ch.setId(nextID++);
+            challenges.add(ch);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public Challenge getChallenge(String month){
+        for(Challenge c : challenges){
+            if(c.getMonth().equalsIgnoreCase(month))
+                    return c;
+        }
+        return null;
+    }
+}
