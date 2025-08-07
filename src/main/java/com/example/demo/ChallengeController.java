@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequestMapping("/challenges") // base URL for http methods of whole controller class
 public class ChallengeController {
     private ChallengeService c;
 
@@ -15,12 +16,12 @@ public class ChallengeController {
         c = ch;
     }
 
-    @GetMapping("/challenges")
+    @GetMapping
     public List<Challenge> getAllChallenges(){
         return c.getAllChallenges();
     }
 
-    @PostMapping("/challenges")
+    @PostMapping
     public String addChallenge(@RequestBody Challenge ch){
         boolean isAdded = c.addChallenge(ch);
         if(isAdded)
@@ -29,12 +30,30 @@ public class ChallengeController {
             return "Adding failed";
     }
 
-    @GetMapping("/challenges/{month}")
+    @GetMapping("/{month}")
     public ResponseEntity<Challenge> getChallenge(
             @PathVariable String month){
         Challenge chl = c.getChallenge(month);
         if(chl!=null)
             return new ResponseEntity<>(chl, HttpStatus.OK);
+        else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateChallenge(@PathVariable Long id, @RequestBody  Challenge newC){
+        boolean isUpdated = c.updateChallenge(id, newC);
+        if(isUpdated)
+            return new ResponseEntity<>("Challenge updated successfully", HttpStatus.OK);
+        else
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteChallenge(@PathVariable Long id){
+        boolean isDeleted = c.deleteChallenge(id);
+        if(isDeleted)
+            return new ResponseEntity<>("Challenge deleted successfully", HttpStatus.OK);
         else
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }

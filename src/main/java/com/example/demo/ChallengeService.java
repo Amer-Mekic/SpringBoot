@@ -1,6 +1,8 @@
 package com.example.demo;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,5 +31,20 @@ public class ChallengeService {
                     return c;
         }
         return null;
+    }
+
+    public boolean updateChallenge(Long id, Challenge newC) {
+        for(Challenge c : challenges){
+            if(c.getId().equals(id)) {
+                c.setMonth(newC.getMonth());
+                c.setDescription(newC.getDescription());
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean deleteChallenge(Long id) {
+        return challenges.removeIf(ch -> ch.getId().equals(id));
     }
 }
