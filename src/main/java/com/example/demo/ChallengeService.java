@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -10,15 +11,17 @@ import java.util.List;
 public class ChallengeService {
     private List<Challenge> challenges = new ArrayList<>();
     private Long nextID = 1L;
+    @Autowired
+    ChallengeRepository cr;
 
     public List<Challenge> getAllChallenges(){
-        return challenges;
+        return cr.findAll();
     }
 
     public boolean addChallenge(Challenge ch){
         if(ch != null) {
             ch.setId(nextID++);
-            challenges.add(ch);
+            cr.save(ch);
             return true;
         }
         else
@@ -26,6 +29,7 @@ public class ChallengeService {
     }
 
     public Challenge getChallenge(String month){
+        cr.findByMonthIgnoreCase(month);
         for(Challenge c : challenges){
             if(c.getMonth().equalsIgnoreCase(month))
                     return c;
