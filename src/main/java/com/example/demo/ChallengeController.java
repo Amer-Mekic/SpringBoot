@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/challenges") // base URL for http methods of whole controller class
+@CrossOrigin(origins="http://localhost:5173")
 public class ChallengeController {
     private ChallengeService c;
 
